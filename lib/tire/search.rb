@@ -90,6 +90,16 @@ module Tire
         end
       end
 
+			# TODO: add support for multiple suggestions and global text
+			def suggest(text, suggester)
+				unless args.empty?
+					@suggest = Suggest.new(text, suggester)
+					self
+				else
+					@suggest
+				end
+			end
+
       def from(value)
         @from = value
         @options[:from] = value
@@ -160,6 +170,7 @@ module Tire
           request.update( { :filter => @filters.first.to_hash } ) if @filters && @filters.size == 1
           request.update( { :filter => { :and => @filters.map {|filter| filter.to_hash} } } ) if  @filters && @filters.size > 1
           request.update( { :highlight => @highlight.to_hash } ) if @highlight
+					request.update( { :suggest => @suggest.to_hash} ) if @suggest
           request.update( { :size => @size } )               if @size
           request.update( { :from => @from } )               if @from
           request.update( { :fields => @fields } )           if @fields
