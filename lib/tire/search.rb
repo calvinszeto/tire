@@ -92,12 +92,8 @@ module Tire
 
 			# TODO: add support for multiple suggestions and global text
 			def suggest(text, suggester)
-				unless args.empty?
-					@suggest = Suggest.new(text, suggester)
-					self
-				else
-					@suggest
-				end
+				@suggest = Suggest.new(text, suggester)
+				self
 			end
 
       def from(value)

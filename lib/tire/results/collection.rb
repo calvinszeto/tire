@@ -29,6 +29,23 @@ module Tire
         end
       end
 
+			def suggestions
+				return nil if failure?
+				@suggest ||= begin
+					suggestion = {suggestion: []}
+					@response['suggest']['suggestion'].each do |s|
+						document = {}
+						document.update 'text' => s['text']
+						document.update 'offset' => s['offset']
+						document.update 'length' => s['length']
+
+						document.update 'options' => s['options'].map{|o|	{text: o['text'], freq: o['freq'], score: o['score']}}
+						suggestion[:suggestion] << document
+					end
+					@wrapper.new(suggestion)
+				end
+			end
+
       # Iterates over the `results` collection
       #
       def each(&block)
