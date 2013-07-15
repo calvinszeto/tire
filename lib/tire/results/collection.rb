@@ -42,7 +42,7 @@ module Tire
 						document.update 'options' => s['options'].map{|o|	{text: o['text'], freq: o['freq'], score: o['score']}}
 						suggestion[:suggestion] << document
 					end
-					@wrapper.new(suggestion)
+					Item.new(suggestion)
 				end
 			end
 
